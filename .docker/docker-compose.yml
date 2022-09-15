@@ -1,0 +1,73 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: viz
+        uid: 1000
+      context: ./
+      dockerfile: ./nginx/Dockerfile
+    container_name: app-sailor-go
+    image: sailor-go-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    environment:
+      - DB_HOST=postgres
+    volumes:
+      - ./../backend/:/var/www
+    networks:
+      - sailor-go-net
+    links:
+      - postgres
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-sailor-go
+    restart: unless-stopped
+    ports:
+      - ${APP_PORT}:80
+    volumes:
+      - ./../backend/:/var/www
+      - ./nginx/app.local.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - sailor-go-net
+
+  postgres:
+    container_name: sailor-go-postgres
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_DB: sailorgo
+    ports:
+      - ${DB_PORT}:5432
+    networks:
+      - sailor-go-net
+    restart: unless-stopped
+
+  redis:
+    container_name: sailor-go-redis
+    image: redis:alpine
+    restart: unless-stopped
+    networks:
+      - sailor-go-net
+
+  app-horizon:
+    image: sailor-go-app
+    entrypoint: /entrypoint-hor
+    container_name: sailor-go-horizon
+    restart: always
+    command: php -dmemory_limit=512M artisan horizon
+    working_dir: /var/www/
+    environment:
+      - DB_HOST=postgres
+    volumes:
+      - ./../backend/:/var/www
+    depends_on:
+      -   app
+    networks:
+      - sailor-go-net
+
+networks:
+  sailor-go-net:
+    driver: bridge
