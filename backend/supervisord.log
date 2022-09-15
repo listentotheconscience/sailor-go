@@ -14,3 +14,11 @@
 2022-09-15 07:17:19,986 INFO spawnerr: can't find command '/usr/sbin/nginx'
 2022-09-15 07:17:22,989 INFO spawnerr: can't find command '/usr/sbin/nginx'
 2022-09-15 07:17:22,990 INFO gave up: nginx entered FATAL state, too many start retries too quickly
+2022-09-15 07:56:26,878 INFO supervisord started with pid 46
+2022-09-15 07:56:27,880 INFO spawnerr: can't find command '/usr/sbin/nginx'
+2022-09-15 07:56:27,884 INFO spawned: 'php-fpm' with pid 47
+2022-09-15 07:56:28,994 INFO spawnerr: can't find command '/usr/sbin/nginx'
+2022-09-15 07:56:28,994 INFO success: php-fpm entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2022-09-15 07:56:30,997 INFO spawnerr: can't find command '/usr/sbin/nginx'
+2022-09-15 07:56:34,000 INFO spawnerr: can't find command '/usr/sbin/nginx'
+2022-09-15 07:56:34,000 INFO gave up: nginx entered FATAL state, too many start retries too quickly
